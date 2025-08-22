@@ -57,3 +57,7 @@ lib/l10n/app_localizations_en.dart
 **/windows/flutter/generated_plugin_registrant.cc
 **/windows/flutter/generated_plugin_registrant.h
 **/windows/flutter/generated_plugins.cmake
+
+# Hive
+woodlabs_chatbot.hive
+woodlabs_chatbot.lock

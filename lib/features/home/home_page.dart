@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:woodlabs_chatbot/features/home/status_bar.dart';
 
 import '../../router/routes.dart';
 import '../../utils/extensions/context_extensions.dart';
@@ -47,9 +48,18 @@ class HomePage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final destinations = [
-      HomeDestination(icon: Icon(TablerIcons.abacus), label: "A"),
-      HomeDestination(icon: Icon(TablerIcons.abacus), label: "B"),
-      HomeDestination(icon: Icon(TablerIcons.abacus), label: "C"),
+      HomeDestination(
+        icon: Icon(TablerIcons.user),
+        label: context.localizations.nav_profiles,
+      ),
+      HomeDestination(
+        icon: Icon(TablerIcons.settings_exclamation),
+        label: context.localizations.nav_commands,
+      ),
+      HomeDestination(
+        icon: Icon(TablerIcons.math_xy),
+        label: context.localizations.nav_variables,
+      ),
     ];
 
     /// Handles navigation and scroll-to-top through [NavigationRail] or [NavigationBar]
@@ -78,17 +88,51 @@ class HomePage extends HookConsumerWidget {
 
     return Scaffold(
       extendBody: true,
-      body: Row(
-        children: [
-          NavigationRail(
-            backgroundColor: context.customColors.transparent,
-            selectedIndex: index,
-            onDestinationSelected: onDestinationSelected,
-            labelType: NavigationRailLabelType.all,
-            destinations: railFromHomeDestinations(destinations),
-          ),
-          Expanded(child: child),
-        ],
+      body: Container(
+        decoration: BoxDecoration(color: context.customColors.background),
+        child: Column(
+          children: [
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        right: BorderSide(
+                          color: context.customColors.attmayGreen.withValues(
+                            alpha: 1.0,
+                          ),
+                          width: 1.0,
+                        ),
+                      ),
+                    ),
+                    width: 175.0,
+                    child: Row(
+                      children: [
+                        Flexible(
+                          child: NavigationRail(
+                            backgroundColor: context.customColors.transparent,
+                            selectedIndex: index,
+                            onDestinationSelected: onDestinationSelected,
+                            labelType: null,
+                            destinations: railFromHomeDestinations(
+                              destinations,
+                            ),
+                            groupAlignment: -1.0,
+                            extended: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(child: child),
+                ],
+              ),
+            ),
+            StatusBar(),
+          ],
+        ),
       ),
     );
   }

@@ -4,17 +4,26 @@ class CustomTextStyles extends ThemeExtension<CustomTextStyles> {
   /// Global [TextTheme]s defining custom sizing and styles for text.
 
   final TextStyle bodyRegular;
+  final TextStyle statusBar;
 
   /// Additional text styles not present in the [TextTheme].
-  const CustomTextStyles({required this.bodyRegular});
+  const CustomTextStyles({required this.bodyRegular, required this.statusBar});
 
   // Define sizing and styles, not colors.
   static const CustomTextStyles defaultTextStyles = CustomTextStyles(
     bodyRegular: TextStyle(
       fontFamily: "Inter",
-      fontSize: 18,
+      fontSize: 14,
       fontWeight: FontWeight.w400,
-      height: 22.0 / 18.0,
+      height: 17.0 / 14.0,
+      leadingDistribution: TextLeadingDistribution.even,
+      color: Colors.white,
+    ),
+    statusBar: TextStyle(
+      fontFamily: "Inter",
+      fontSize: 12,
+      fontWeight: FontWeight.w400,
+      height: 14.0 / 12.0,
       leadingDistribution: TextLeadingDistribution.even,
       color: Colors.white,
     ),
@@ -48,8 +57,14 @@ class CustomTextStyles extends ThemeExtension<CustomTextStyles> {
       Theme.of(context).extension<CustomTextStyles>()!;
 
   @override
-  ThemeExtension<CustomTextStyles> copyWith({TextStyle? bodyRegular}) {
-    return CustomTextStyles(bodyRegular: bodyRegular ?? this.bodyRegular);
+  ThemeExtension<CustomTextStyles> copyWith({
+    TextStyle? bodyRegular,
+    TextStyle? statusBar,
+  }) {
+    return CustomTextStyles(
+      bodyRegular: bodyRegular ?? this.bodyRegular,
+      statusBar: statusBar ?? this.statusBar,
+    );
   }
 
   @override
@@ -60,6 +75,7 @@ class CustomTextStyles extends ThemeExtension<CustomTextStyles> {
     if (other is! CustomTextStyles) return this;
     return CustomTextStyles(
       bodyRegular: TextStyle.lerp(bodyRegular, other.bodyRegular, t)!,
+      statusBar: TextStyle.lerp(statusBar, other.statusBar, t)!,
     );
   }
 }

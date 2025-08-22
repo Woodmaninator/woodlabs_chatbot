@@ -88,12 +88,14 @@ class CustomThemeData {
       groupAlignment: 0.0, // Means center, nice one NavigationRail devs
       backgroundColor: customColors.transparent,
       indicatorColor: Colors.transparent,
-      selectedIconTheme: IconThemeData(color: colorScheme.primary),
-      unselectedIconTheme: IconThemeData(color: colorScheme.onSurface),
-      selectedLabelTextStyle: CustomTextStyles.globalTextTheme.labelSmall!
-          .copyWith(color: colorScheme.primary),
-      unselectedLabelTextStyle: CustomTextStyles.globalTextTheme.labelSmall!
-          .copyWith(color: colorScheme.onSurface),
+      selectedIconTheme: IconThemeData(color: customColors.attmayGreen),
+      unselectedIconTheme: IconThemeData(color: customColors.white100),
+      selectedLabelTextStyle: customTextStyles.bodyRegular.copyWith(
+        color: customColors.attmayGreen,
+      ),
+      unselectedLabelTextStyle: customTextStyles.bodyRegular.copyWith(
+        color: customColors.white100,
+      ),
     ),
     snackBarTheme: SnackBarThemeData(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),

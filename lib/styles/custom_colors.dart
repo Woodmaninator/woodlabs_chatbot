@@ -6,14 +6,23 @@ class CustomColors extends ThemeExtension<CustomColors> {
     brightness: Brightness.light,
   );
 
-  const CustomColors({required this.transparent, required this.attmayGreen});
+  const CustomColors({
+    required this.transparent,
+    required this.attmayGreen,
+    required this.background,
+    required this.white100,
+  });
 
   final Color transparent;
   final Color attmayGreen;
+  final Color background;
+  final Color white100;
 
   static const CustomColors light = CustomColors(
     transparent: Color(0x00FFFFFF),
     attmayGreen: Color(0xFF006666),
+    background: Color(0xFF333333),
+    white100: Color(0xFFFFFFFF),
   );
 
   static CustomColors of(BuildContext context) =>
@@ -23,10 +32,14 @@ class CustomColors extends ThemeExtension<CustomColors> {
   ThemeExtension<CustomColors> copyWith({
     Color? transparent,
     Color? attmayGreen,
+    Color? background,
+    Color? white100,
   }) {
     return CustomColors(
       transparent: transparent ?? this.transparent,
       attmayGreen: attmayGreen ?? this.attmayGreen,
+      background: background ?? this.background,
+      white100: white100 ?? this.white100,
     );
   }
 
@@ -39,6 +52,8 @@ class CustomColors extends ThemeExtension<CustomColors> {
     return CustomColors(
       transparent: Color.lerp(transparent, other.transparent, t)!,
       attmayGreen: Color.lerp(attmayGreen, other.attmayGreen, t)!,
+      background: Color.lerp(background, other.background, t)!,
+      white100: Color.lerp(white100, other.white100, t)!,
     );
   }
 }
