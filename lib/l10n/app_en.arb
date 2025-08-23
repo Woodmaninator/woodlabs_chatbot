@@ -1,4 +1,7 @@
 {
+  "save": "Save",
+  "cancel": "Cancel",
+
   "nav_profiles": "Profiles",
   "nav_commands": "Commands",
   "nav_variables": "Variables",
@@ -8,5 +11,14 @@
   "status_bar_connection_status_disconnected": "Disconnected",
   "status_bar_connection_status_connecting": "Connecting",
   "status_bar_active_profile": "Active Profile",
-  "status_bar_active_profile_no_profile": "No profile selected"
+  "status_bar_active_profile_no_profile": "No profile selected",
+
+  "commands_filter": "Filter commands",
+  "command_edit_command": "Command",
+  "command_edit_command_hint": "!ping",
+  "command_edit_response": "Response",
+  "command_edit_response_hint": "/me Pong!",
+  "command_edit_enabled": "Enabled",
+  "command_edit_user_cooldown": "User Cooldown [s]",
+  "command_edit_global_cooldown": "Global Cooldown [s]"
 }

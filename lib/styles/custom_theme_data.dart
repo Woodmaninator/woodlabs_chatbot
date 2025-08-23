@@ -45,20 +45,18 @@ class CustomThemeData {
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide.none,
+        borderSide: BorderSide(color: customColors.attmayGreen),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide(color: colorScheme.error),
+        borderSide: BorderSide(color: Colors.red),
       ),
-      contentPadding: const EdgeInsets.all(4),
-      fillColor: colorScheme.secondary,
+      contentPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+      fillColor: customColors.backgroundLight,
       filled: true,
-      labelStyle: CustomTextStyles.globalTextTheme.bodySmall,
-      hintStyle: CustomTextStyles.globalTextTheme.bodySmall,
-      errorStyle: CustomTextStyles.globalTextTheme.bodySmall!.copyWith(
-        color: colorScheme.error,
-      ),
+      labelStyle: customTextStyles.input,
+      hintStyle: customTextStyles.input,
+      errorStyle: customTextStyles.input,
     ),
     dividerTheme: DividerThemeData(
       color: colorScheme.onSurface,
@@ -112,6 +110,13 @@ class CustomThemeData {
         padding: WidgetStateProperty.all(EdgeInsets.all(4)),
         iconSize: WidgetStateProperty.all(16),
       ),
+    ),
+    scrollbarTheme: ScrollbarThemeData(
+      thumbColor: WidgetStateProperty<Color>.fromMap({
+        WidgetState.any: customColors.attmayGreen.withValues(alpha: 0.5),
+        WidgetState.hovered: customColors.attmayGreen.withValues(alpha: 0.8),
+        WidgetState.dragged: customColors.attmayGreen.withValues(alpha: 1.0),
+      }),
     ),
     extensions: [customColors, customTextStyles],
   );

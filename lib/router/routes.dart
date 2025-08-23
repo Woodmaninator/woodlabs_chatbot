@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:woodlabs_chatbot/features/commands/command_edit_page.dart';
+import 'package:woodlabs_chatbot/features/commands/commands_page.dart';
 import 'package:woodlabs_chatbot/features/home/home_page.dart';
 
 part 'routes.g.dart';
@@ -10,7 +12,15 @@ part 'routes.g.dart';
       routes: [TypedGoRoute<ProfilesRoute>(path: '/profiles')],
     ),
     TypedStatefulShellBranch(
-      routes: [TypedGoRoute<CommandsRoute>(path: '/commands')],
+      routes: [
+        TypedGoRoute<CommandsRoute>(
+          path: '/commands',
+          routes: [
+            TypedGoRoute<NewCommandRoute>(path: 'new'),
+            TypedGoRoute<EditCommandRoute>(path: 'edit/:commandId'),
+          ],
+        ),
+      ],
     ),
     TypedStatefulShellBranch(
       routes: [TypedGoRoute<VariablesRoute>(path: '/variables')],
@@ -37,7 +47,20 @@ class ProfilesRoute extends GoRouteData with _$ProfilesRoute {
 class CommandsRoute extends GoRouteData with _$CommandsRoute {
   const CommandsRoute();
   @override
-  Widget build(context, state) => const Placeholder(color: Colors.blue);
+  Widget build(context, state) => const CommandsPage();
+}
+
+class NewCommandRoute extends GoRouteData with _$NewCommandRoute {
+  const NewCommandRoute();
+  @override
+  Widget build(context, state) => CommandEditPage(commandId: -1);
+}
+
+class EditCommandRoute extends GoRouteData with _$EditCommandRoute {
+  final int commandId;
+  const EditCommandRoute({required this.commandId});
+  @override
+  Widget build(context, state) => CommandEditPage(commandId: commandId);
 }
 
 class VariablesRoute extends GoRouteData with _$VariablesRoute {

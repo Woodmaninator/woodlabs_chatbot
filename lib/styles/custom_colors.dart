@@ -9,19 +9,28 @@ class CustomColors extends ThemeExtension<CustomColors> {
   const CustomColors({
     required this.transparent,
     required this.attmayGreen,
+    required this.attmayGreenLight,
     required this.background,
+    required this.backgroundLight,
+    required this.backgroundMedium,
     required this.white100,
   });
 
   final Color transparent;
   final Color attmayGreen;
+  final Color attmayGreenLight;
   final Color background;
+  final Color backgroundLight;
+  final Color backgroundMedium;
   final Color white100;
 
   static const CustomColors light = CustomColors(
     transparent: Color(0x00FFFFFF),
     attmayGreen: Color(0xFF006666),
+    attmayGreenLight: Color(0xFF004444),
     background: Color(0xFF333333),
+    backgroundLight: Color(0xFF6F6F6F),
+    backgroundMedium: Color(0xFF4F4F4F),
     white100: Color(0xFFFFFFFF),
   );
 
@@ -32,13 +41,19 @@ class CustomColors extends ThemeExtension<CustomColors> {
   ThemeExtension<CustomColors> copyWith({
     Color? transparent,
     Color? attmayGreen,
+    Color? attmayGreenLight,
     Color? background,
+    Color? backgroundLight,
+    Color? backgroundMedium,
     Color? white100,
   }) {
     return CustomColors(
       transparent: transparent ?? this.transparent,
       attmayGreen: attmayGreen ?? this.attmayGreen,
+      attmayGreenLight: attmayGreenLight ?? this.attmayGreenLight,
       background: background ?? this.background,
+      backgroundLight: backgroundLight ?? this.backgroundLight,
+      backgroundMedium: backgroundMedium ?? this.backgroundMedium,
       white100: white100 ?? this.white100,
     );
   }
@@ -52,7 +67,18 @@ class CustomColors extends ThemeExtension<CustomColors> {
     return CustomColors(
       transparent: Color.lerp(transparent, other.transparent, t)!,
       attmayGreen: Color.lerp(attmayGreen, other.attmayGreen, t)!,
+      attmayGreenLight: Color.lerp(
+        attmayGreenLight,
+        other.attmayGreenLight,
+        t,
+      )!,
       background: Color.lerp(background, other.background, t)!,
+      backgroundLight: Color.lerp(backgroundLight, other.backgroundLight, t)!,
+      backgroundMedium: Color.lerp(
+        backgroundMedium,
+        other.backgroundMedium,
+        t,
+      )!,
       white100: Color.lerp(white100, other.white100, t)!,
     );
   }

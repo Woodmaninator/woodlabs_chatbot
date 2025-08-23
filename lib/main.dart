@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -6,6 +7,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:twitch_chat/twitch_chat.dart';
 import 'package:window_size/window_size.dart';
 import 'package:woodlabs_chatbot/app.dart';
+import 'package:woodlabs_chatbot/model/command.dart';
+import 'package:woodlabs_chatbot/model/profile.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,14 +49,22 @@ Future<void> main() async {
   await Hive.openBox('woodlabs_chatbot', path: Directory.current.path);
 
   //TODO: REMOVE THIS
-  /*
   var box = Hive.box('woodlabs_chatbot');
 
   Profile testProfile = Profile(
     id: 1,
     name: 'Test Profile',
     channel: 'Woodmaninator',
-    commands: [Command(command: "!test", response: "Test")],
+    commands: [
+      Command(
+        command: "!test",
+        response: "Test",
+        id: 1,
+        isEnabled: true,
+        globalCooldown: 0,
+        userCooldown: 30,
+      ),
+    ],
     variables: [],
   );
 
@@ -66,7 +77,6 @@ Future<void> main() async {
   Profile profile = Profile.fromJson(
     jsonDecode(box.get('profile_${testProfile.id}')),
   );
-   */
 
   runApp(ProviderScope(child: const App()));
 }
