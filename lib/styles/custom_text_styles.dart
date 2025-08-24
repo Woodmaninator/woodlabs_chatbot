@@ -7,6 +7,7 @@ class CustomTextStyles extends ThemeExtension<CustomTextStyles> {
   final TextStyle statusBar;
   final TextStyle label;
   final TextStyle input;
+  final TextStyle navigationBar;
 
   /// Additional text styles not present in the [TextTheme].
   const CustomTextStyles({
@@ -14,6 +15,7 @@ class CustomTextStyles extends ThemeExtension<CustomTextStyles> {
     required this.statusBar,
     required this.label,
     required this.input,
+    required this.navigationBar,
   });
 
   // Define sizing and styles, not colors.
@@ -47,6 +49,14 @@ class CustomTextStyles extends ThemeExtension<CustomTextStyles> {
       fontSize: 14,
       fontWeight: FontWeight.w300,
       height: 16.0 / 14.0,
+      leadingDistribution: TextLeadingDistribution.even,
+      color: Colors.white,
+    ),
+    navigationBar: TextStyle(
+      fontFamily: "Inter",
+      fontSize: 16,
+      fontWeight: FontWeight.w600,
+      height: 20.0 / 16.0,
       leadingDistribution: TextLeadingDistribution.even,
       color: Colors.white,
     ),
@@ -85,12 +95,14 @@ class CustomTextStyles extends ThemeExtension<CustomTextStyles> {
     TextStyle? statusBar,
     TextStyle? label,
     TextStyle? input,
+    TextStyle? navigationBar,
   }) {
     return CustomTextStyles(
       bodyRegular: bodyRegular ?? this.bodyRegular,
       statusBar: statusBar ?? this.statusBar,
       label: label ?? this.label,
       input: input ?? this.input,
+      navigationBar: navigationBar ?? this.navigationBar,
     );
   }
 
@@ -105,6 +117,7 @@ class CustomTextStyles extends ThemeExtension<CustomTextStyles> {
       statusBar: TextStyle.lerp(statusBar, other.statusBar, t)!,
       label: TextStyle.lerp(label, other.label, t)!,
       input: TextStyle.lerp(input, other.input, t)!,
+      navigationBar: TextStyle.lerp(navigationBar, other.navigationBar, t)!,
     );
   }
 }

@@ -14,6 +14,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     required this.backgroundLight,
     required this.backgroundMedium,
     required this.white100,
+    required this.black100,
   });
 
   final Color transparent;
@@ -23,15 +24,17 @@ class CustomColors extends ThemeExtension<CustomColors> {
   final Color backgroundLight;
   final Color backgroundMedium;
   final Color white100;
+  final Color black100;
 
   static const CustomColors light = CustomColors(
     transparent: Color(0x00FFFFFF),
     attmayGreen: Color(0xFF006666),
-    attmayGreenLight: Color(0xFF004444),
+    attmayGreenLight: Color(0xFF446666),
     background: Color(0xFF333333),
     backgroundLight: Color(0xFF6F6F6F),
     backgroundMedium: Color(0xFF4F4F4F),
     white100: Color(0xFFFFFFFF),
+    black100: Color(0xFF000000),
   );
 
   static CustomColors of(BuildContext context) =>
@@ -46,6 +49,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     Color? backgroundLight,
     Color? backgroundMedium,
     Color? white100,
+    Color? black100,
   }) {
     return CustomColors(
       transparent: transparent ?? this.transparent,
@@ -55,6 +59,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
       backgroundLight: backgroundLight ?? this.backgroundLight,
       backgroundMedium: backgroundMedium ?? this.backgroundMedium,
       white100: white100 ?? this.white100,
+      black100: black100 ?? this.black100,
     );
   }
 
@@ -80,6 +85,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
         t,
       )!,
       white100: Color.lerp(white100, other.white100, t)!,
+      black100: Color.lerp(black100, other.black100, t)!,
     );
   }
 }

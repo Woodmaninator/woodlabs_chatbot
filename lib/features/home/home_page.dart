@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:woodlabs_chatbot/components/woodlabs_navigation_bar.dart';
 import 'package:woodlabs_chatbot/features/home/status_bar.dart';
 
 import '../../router/routes.dart';
@@ -14,51 +15,41 @@ class HomePageIndices {
 
 /// Common class for [NavigationRail] and [NavigationBar] destinations to avoid redundancy
 class HomeDestination {
-  final Widget icon;
+  final IconData icon;
   final String label;
+  final String location;
 
-  const HomeDestination({required this.icon, required this.label});
+  const HomeDestination({
+    required this.icon,
+    required this.label,
+    required this.location,
+  });
 }
 
 /// Home page handles navigation and scroll-to-top for its nested [StatefulShellBranch] routes.
 class HomePage extends HookConsumerWidget {
   const HomePage({super.key, required this.child, required this.index});
 
-  final Widget child;
   final int index;
-
-  List<NavigationDestination> fromHomeDestinations(
-    List<HomeDestination> destinations,
-  ) {
-    return destinations
-        .map((d) => NavigationDestination(icon: d.icon, label: d.label))
-        .toList(growable: false);
-  }
-
-  List<NavigationRailDestination> railFromHomeDestinations(
-    List<HomeDestination> destinations,
-  ) {
-    return destinations
-        .map(
-          (d) => NavigationRailDestination(icon: d.icon, label: Text(d.label)),
-        )
-        .toList(growable: false);
-  }
+  final Widget child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final destinations = [
       HomeDestination(
-        icon: Icon(TablerIcons.user),
+        icon: TablerIcons.user,
         label: context.localizations.nav_profiles,
+        location: ProfilesRoute().location,
       ),
       HomeDestination(
-        icon: Icon(TablerIcons.settings_exclamation),
+        icon: TablerIcons.settings_exclamation,
         label: context.localizations.nav_commands,
+        location: CommandsRoute().location,
       ),
       HomeDestination(
-        icon: Icon(TablerIcons.math_xy),
+        icon: TablerIcons.math_xy,
         label: context.localizations.nav_variables,
+        location: VariablesRoute().location,
       ),
     ];
 
@@ -103,27 +94,30 @@ class HomePage extends HookConsumerWidget {
                           color: context.customColors.attmayGreen.withValues(
                             alpha: 1.0,
                           ),
-                          width: 1.0,
+                          width: 3.0,
                         ),
                       ),
                     ),
                     width: 175.0,
-                    child: Row(
-                      children: [
-                        Flexible(
-                          child: NavigationRail(
-                            backgroundColor: context.customColors.transparent,
-                            selectedIndex: index,
-                            onDestinationSelected: onDestinationSelected,
-                            labelType: null,
-                            destinations: railFromHomeDestinations(
-                              destinations,
+                    child: WoodlabsNavigationBar(
+                      trailing: Column(
+                        children: [
+                          const SizedBox(height: 16.0),
+                          Center(
+                            child: Image.asset(
+                              "assets/img/woodlabs_800.png",
+                              fit: BoxFit.contain,
+                              height: 64,
+                              width: 64,
                             ),
-                            groupAlignment: -1.0,
-                            extended: true,
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 16.0),
+                        ],
+                      ),
+                      icons: destinations.map((d) => d.icon).toList(),
+                      labels: destinations.map((d) => d.label).toList(),
+                      locations: destinations.map((d) => d.location).toList(),
+                      selectedIndex: index,
                     ),
                   ),
                   Expanded(child: child),

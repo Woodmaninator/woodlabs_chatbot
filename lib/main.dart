@@ -40,6 +40,9 @@ Future<void> main() async {
 
   twitchChat.chatStream.listen((message) {
     print('${message.displayName}: ${message.message}');
+    if (message.isSubscriber) {
+      print('${message.displayName} is a subscriber!');
+    }
     if (message.message == "!ping") {
       twitchChat.sendMessage('/me @${message.displayName} Pong!');
     }
