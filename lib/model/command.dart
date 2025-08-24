@@ -2,6 +2,19 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'command.g.dart';
 
+enum CommandPermissionType {
+  @JsonValue("specificUsers")
+  specificUsers,
+  @JsonValue("everyone")
+  everyone,
+  @JsonValue("subscribers")
+  subscribers,
+  @JsonValue("vips")
+  vips,
+  @JsonValue("moderators")
+  moderators,
+}
+
 @JsonSerializable()
 class Command {
   int id;
@@ -11,6 +24,8 @@ class Command {
   int userCooldown;
   int globalCooldown;
   int usageCount;
+  CommandPermissionType permissionType;
+  List<String> specificUsers;
 
   Command({
     required this.id,
@@ -20,6 +35,8 @@ class Command {
     this.userCooldown = 0,
     this.globalCooldown = 0,
     this.usageCount = 0,
+    this.permissionType = CommandPermissionType.everyone,
+    this.specificUsers = const [],
   });
 
   factory Command.fromJson(Map<String, dynamic> json) =>
