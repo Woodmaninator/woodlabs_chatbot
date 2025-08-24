@@ -6,6 +6,30 @@ import 'package:woodlabs_chatbot/features/home/home_page.dart';
 
 part 'routes.g.dart';
 
+class CustomSlideTransitionPage<T> extends CustomTransitionPage<T> {
+  const CustomSlideTransitionPage({required super.child, super.key})
+    : super(
+        transitionDuration: const Duration(milliseconds: 300),
+        reverseTransitionDuration: const Duration(milliseconds: 300),
+        transitionsBuilder: _transitionsBuilder,
+      );
+
+  static Widget _transitionsBuilder(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    const begin = Offset(1.0, 0.0); // Start off the screen to the right
+    const end = Offset.zero; // End at the original position
+    const curve = Curves.easeInOut;
+
+    final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+    return SlideTransition(position: animation.drive(tween), child: child);
+  }
+}
+
 @TypedStatefulShellRoute<HomeShellRoute>(
   branches: [
     TypedStatefulShellBranch(
@@ -54,6 +78,11 @@ class NewCommandRoute extends GoRouteData with _$NewCommandRoute {
   const NewCommandRoute();
   @override
   Widget build(context, state) => CommandEditPage(commandId: -1);
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomSlideTransitionPage(child: build(context, state));
+  }
 }
 
 class EditCommandRoute extends GoRouteData with _$EditCommandRoute {
@@ -61,6 +90,11 @@ class EditCommandRoute extends GoRouteData with _$EditCommandRoute {
   const EditCommandRoute({required this.commandId});
   @override
   Widget build(context, state) => CommandEditPage(commandId: commandId);
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomSlideTransitionPage(child: build(context, state));
+  }
 }
 
 class VariablesRoute extends GoRouteData with _$VariablesRoute {

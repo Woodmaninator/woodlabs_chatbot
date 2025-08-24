@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:woodlabs_chatbot/components/woodlabs_icon_button.dart';
 import 'package:woodlabs_chatbot/components/woodlabs_text_input.dart';
+import 'package:woodlabs_chatbot/components/woodlabs_window.dart';
 import 'package:woodlabs_chatbot/features/commands/widgets/command_banner.dart';
 import 'package:woodlabs_chatbot/model/command.dart';
 import 'package:woodlabs_chatbot/provider/commands_provider.dart';
+import 'package:woodlabs_chatbot/router/routes.dart';
 import 'package:woodlabs_chatbot/utils/extensions/context_extensions.dart';
 
 class CommandsPage extends ConsumerStatefulWidget {
@@ -76,8 +77,7 @@ class _CommandsPageState extends ConsumerState<CommandsPage> {
       );
     }
 
-    return Padding(
-      padding: EdgeInsets.all(16.0),
+    return WoodlabsWindow(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -137,7 +137,7 @@ class _CommandsPageState extends ConsumerState<CommandsPage> {
   }
 
   void _onAddCommand(BuildContext context) {
-    context.go('/commands/new');
+    NewCommandRoute().go(context);
   }
 
   void _onCommandActiveChanged(
