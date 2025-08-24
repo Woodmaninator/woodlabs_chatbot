@@ -112,14 +112,15 @@ class _CommandsPageState extends ConsumerState<CommandsPage> {
                   ),
                 ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Scrollbar(
+              child: Scrollbar(
+                controller: scrollController,
+                child: ListView(
                   controller: scrollController,
-                  child: ListView(
-                    controller: scrollController,
-                    children: [...commandBanners],
-                  ),
+                  children: [
+                    SizedBox(height: 8.0),
+                    ...commandBanners,
+                    SizedBox(height: 8.0),
+                  ],
                 ),
               ),
             ),
