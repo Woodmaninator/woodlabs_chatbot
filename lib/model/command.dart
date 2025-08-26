@@ -41,16 +41,33 @@ String getCommandPermissionTypeName(
   }
 }
 
-CommandPermissionType getCommandPermissionTypeFromName(
+enum CommandTriggerType {
+  @JsonValue("starts-with")
+  startsWith,
+  @JsonValue("word-match")
+  wordMatch,
+  @JsonValue("contains")
+  contains,
+}
+
+List<String> getCommandTriggerTypeNames(BuildContext context) {
+  return CommandTriggerType.values
+      .map((type) => getCommandTriggerTypeName(context, type))
+      .toList();
+}
+
+String getCommandTriggerTypeName(
   BuildContext context,
-  String name,
+  CommandTriggerType type,
 ) {
-  for (var type in CommandPermissionType.values) {
-    if (getCommandPermissionTypeName(context, type) == name) {
-      return type;
-    }
+  switch (type) {
+    case CommandTriggerType.startsWith:
+      return context.localizations.command_trigger_type_starts_with;
+    case CommandTriggerType.wordMatch:
+      return context.localizations.command_trigger_type_word_match;
+    case CommandTriggerType.contains:
+      return context.localizations.command_trigger_type_contains;
   }
-  return CommandPermissionType.everyone;
 }
 
 @JsonSerializable()
@@ -64,6 +81,7 @@ class Command {
   int usageCount;
   CommandPermissionType permissionType;
   List<String> specificUsers;
+  CommandTriggerType triggerType;
 
   Command({
     required this.id,
@@ -75,9 +93,36 @@ class Command {
     this.usageCount = 0,
     this.permissionType = CommandPermissionType.everyone,
     this.specificUsers = const [],
+    this.triggerType = CommandTriggerType.startsWith,
   });
 
   factory Command.fromJson(Map<String, dynamic> json) =>
       _$CommandFromJson(json);
   Map<String, dynamic> toJson() => _$CommandToJson(this);
+
+  Command copyWith({
+    int? id,
+    String? command,
+    String? response,
+    bool? isEnabled,
+    int? userCooldown,
+    int? globalCooldown,
+    int? usageCount,
+    CommandPermissionType? permissionType,
+    List<String>? specificUsers,
+    CommandTriggerType? triggerType,
+  }) {
+    return Command(
+      id: id ?? this.id,
+      command: command ?? this.command,
+      response: response ?? this.response,
+      isEnabled: isEnabled ?? this.isEnabled,
+      userCooldown: userCooldown ?? this.userCooldown,
+      globalCooldown: globalCooldown ?? this.globalCooldown,
+      usageCount: usageCount ?? this.usageCount,
+      permissionType: permissionType ?? this.permissionType,
+      specificUsers: specificUsers ?? this.specificUsers,
+      triggerType: triggerType ?? this.triggerType,
+    );
+  }
 }

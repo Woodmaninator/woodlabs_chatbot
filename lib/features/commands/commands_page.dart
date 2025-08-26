@@ -8,6 +8,7 @@ import 'package:woodlabs_chatbot/features/commands/widgets/command_banner.dart';
 import 'package:woodlabs_chatbot/model/command.dart';
 import 'package:woodlabs_chatbot/provider/commands_provider.dart';
 import 'package:woodlabs_chatbot/router/routes.dart';
+import 'package:woodlabs_chatbot/service/command_service.dart';
 import 'package:woodlabs_chatbot/utils/extensions/context_extensions.dart';
 
 class CommandsPage extends ConsumerStatefulWidget {
@@ -44,15 +45,6 @@ class _CommandsPageState extends ConsumerState<CommandsPage> {
         filterController.text.toLowerCase(),
       );
     }).toList();
-
-    filteredCommands = [...filteredCommands];
-
-    //TODO: DELETE THIS
-    if (filteredCommands.isNotEmpty) {
-      for (int i = 0; i < 20; i++) {
-        filteredCommands.add(filteredCommands[0]);
-      }
-    }
 
     var commandBanners = <Widget>[];
     for (int i = 0; i < filteredCommands.length; i++) {
@@ -146,11 +138,18 @@ class _CommandsPageState extends ConsumerState<CommandsPage> {
     Command command,
     bool value,
   ) {
+    CommandService.updateCommand(ref, command.copyWith(isEnabled: value));
+
     setState(() {
       command.isEnabled = value;
     });
   }
 
-  void _onCommandDelete(BuildContext context, Command command) {}
-  void _onCommandEdit(BuildContext context, Command command) {}
+  void _onCommandDelete(BuildContext context, Command command) {
+    CommandService.deleteCommand(ref, command.id);
+  }
+
+  void _onCommandEdit(BuildContext context, Command command) {
+    EditCommandRoute(commandId: command.id).go(context);
+  }
 }

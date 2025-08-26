@@ -10,7 +10,7 @@ part 'selected_profile_provider.g.dart';
 class SelectedProfile extends _$SelectedProfile {
   @override
   Profile? build() {
-    var box = hiveBoxProvider(ref);
+    var box = ref.read(hiveBoxProvider);
     var profiles = box.get('profiles', defaultValue: []) as List<int>;
     if (profiles.isNotEmpty) {
       return Profile.fromJson(

@@ -7,7 +7,10 @@ import 'package:woodlabs_chatbot/components/woodlabs_slider.dart';
 import 'package:woodlabs_chatbot/components/woodlabs_text_input.dart';
 import 'package:woodlabs_chatbot/components/woodlabs_window.dart';
 import 'package:woodlabs_chatbot/model/command.dart';
+import 'package:woodlabs_chatbot/service/command_service.dart';
 import 'package:woodlabs_chatbot/utils/extensions/context_extensions.dart';
+
+import '../../provider/commands_provider.dart';
 
 class CommandEditPage extends ConsumerStatefulWidget {
   const CommandEditPage({super.key, required this.commandId});
@@ -23,15 +26,60 @@ class _CommandEditPageState extends ConsumerState<CommandEditPage> {
   final TextEditingController responseController = TextEditingController();
   final TextEditingController specificUsersController = TextEditingController();
 
-  bool isEnabled = true;
-  CommandPermissionType permissionType = CommandPermissionType.everyone;
+  late bool isEnabled;
+  late CommandPermissionType permissionType;
+  late CommandTriggerType triggerType;
+  late int userCooldown;
+  late int globalCooldown;
+
+  bool isEditorValid = false;
 
   @override
   void initState() {
     if (widget.commandId != -1) {
       // Load command data
-      // TODO: load actual data
+      var command = ref
+          .read(commandsProvider)
+          .firstWhere((cmd) => cmd.id == widget.commandId);
+
+      commandController.text = command.command;
+      responseController.text = command.response;
+      specificUsersController.text = command.specificUsers.isNotEmpty
+          ? command.specificUsers[0]
+          : "";
+      permissionType = command.permissionType;
+      triggerType = command.triggerType;
+      userCooldown = command.userCooldown;
+      globalCooldown = command.globalCooldown;
+      isEnabled = command.isEnabled;
+    } else {
+      isEnabled = true;
+      permissionType = CommandPermissionType.everyone;
+      triggerType = CommandTriggerType.startsWith;
+      userCooldown = 30;
+      globalCooldown = 10;
     }
+
+    commandController.addListener(() {
+      setState(() {
+        isEditorValid = _getValidity();
+      });
+    });
+
+    responseController.addListener(() {
+      setState(() {
+        isEditorValid = _getValidity();
+      });
+    });
+
+    specificUsersController.addListener(() {
+      setState(() {
+        isEditorValid = _getValidity();
+      });
+    });
+
+    isEditorValid = _getValidity();
+
     super.initState();
   }
 
@@ -47,6 +95,14 @@ class _CommandEditPageState extends ConsumerState<CommandEditPage> {
               label: context.localizations.command_edit_command,
               hintText: context.localizations.command_edit_command_hint,
               controller: commandController,
+            ),
+            const SizedBox(height: 8.0),
+            WoodlabsComboBox(
+              items: CommandTriggerType.values,
+              itemLabels: getCommandTriggerTypeNames(context),
+              label: context.localizations.command_edit_trigger,
+              selectedItem: triggerType,
+              onChanged: _onTriggerTypeChanged,
             ),
             const SizedBox(height: 8.0),
             WoodlabsTextInput(
@@ -70,16 +126,16 @@ class _CommandEditPageState extends ConsumerState<CommandEditPage> {
             WoodlabsSlider(
               min: 0,
               max: 300,
-              value: 50,
-              onChanged: _onSliderChanged,
+              value: userCooldown.toDouble(),
+              onChanged: _onUserCooldownChanged,
               label: context.localizations.command_edit_user_cooldown,
             ),
             const SizedBox(height: 8.0),
             WoodlabsSlider(
               min: 0,
               max: 300,
-              value: 50,
-              onChanged: _onSliderChanged,
+              value: globalCooldown.toDouble(),
+              onChanged: _onGlobalCooldownChanged,
               label: context.localizations.command_edit_global_cooldown,
             ),
             const SizedBox(height: 8.0),
@@ -122,7 +178,7 @@ class _CommandEditPageState extends ConsumerState<CommandEditPage> {
               children: [
                 WoodlabsButton(
                   onPressed: () => _onSaveCommand(),
-                  isDisabled: true, //TODO: UPDATE LATER
+                  isDisabled: !isEditorValid,
                   width: 200,
                   text: context.localizations.save,
                   icon: TablerIcons.device_floppy,
@@ -143,21 +199,83 @@ class _CommandEditPageState extends ConsumerState<CommandEditPage> {
     );
   }
 
+  bool _getValidity() {
+    // Check if command not empty
+    if (commandController.text.trim().isEmpty) {
+      return false;
+    }
+
+    // Check if response not empty
+    if (responseController.text.trim().isEmpty) {
+      return false;
+    }
+
+    if (permissionType == CommandPermissionType.specificUsers &&
+        specificUsersController.text.trim().isEmpty) {
+      return false;
+    }
+
+    return true;
+  }
+
   void _onEnabledChanged(bool value) {
     setState(() {
       isEnabled = value;
+      isEditorValid = _getValidity();
     });
   }
 
-  void _onSliderChanged(double value) {}
+  void _onUserCooldownChanged(double value) {
+    setState(() {
+      userCooldown = value.toInt();
+      isEditorValid = _getValidity();
+    });
+  }
+
+  void _onGlobalCooldownChanged(double value) {
+    setState(() {
+      globalCooldown = value.toInt();
+      isEditorValid = _getValidity();
+    });
+  }
 
   void _onPermissionTypeChanged(CommandPermissionType value) {
     setState(() {
       permissionType = value;
+      isEditorValid = _getValidity();
     });
   }
 
-  void _onSaveCommand() {}
+  void _onTriggerTypeChanged(CommandTriggerType value) {
+    setState(() {
+      triggerType = value;
+      isEditorValid = _getValidity();
+    });
+  }
+
+  void _onSaveCommand() {
+    if (!isEditorValid) return;
+
+    Command newCommand = Command(
+      id: widget.commandId,
+      command: commandController.text.trim(),
+      response: responseController.text.trim(),
+      isEnabled: isEnabled,
+      userCooldown: userCooldown,
+      globalCooldown: globalCooldown,
+      permissionType: permissionType,
+      specificUsers: [specificUsersController.text.trim()],
+      triggerType: triggerType,
+    );
+
+    if (widget.commandId == -1) {
+      CommandService.addCommand(ref, newCommand);
+    } else {
+      CommandService.updateCommand(ref, newCommand);
+    }
+
+    context.goRouter.pop();
+  }
 
   void _onCancelCommand() {
     context.goRouter.pop();
