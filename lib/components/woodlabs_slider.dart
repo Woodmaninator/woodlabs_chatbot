@@ -51,8 +51,11 @@ class _WoodlabsSliderState extends State<WoodlabsSlider> {
                       child: Container(
                         height: 30,
                         decoration: BoxDecoration(
-                          color: context.customColors.backgroundMedium,
+                          color: context.customColors.backgroundLight,
                           borderRadius: BorderRadius.circular(8.0),
+                          border: Border.all(
+                            color: context.customColors.attmayGreen,
+                          ),
                         ),
                       ),
                     ),

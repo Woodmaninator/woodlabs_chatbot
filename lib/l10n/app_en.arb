@@ -20,5 +20,12 @@
   "command_edit_response_hint": "/me Pong!",
   "command_edit_enabled": "Enabled",
   "command_edit_user_cooldown": "User Cooldown [s]",
-  "command_edit_global_cooldown": "Global Cooldown [s]"
+  "command_edit_global_cooldown": "Global Cooldown [s]",
+  "command_edit_permission": "Permissions",
+
+  "command_permission_type_specific_users": "Specific User",
+  "command_permission_type_everyone": "Everyone",
+  "command_permission_type_subscribers": "Subscribers",
+  "command_permission_type_vips": "VIP",
+  "command_permission_type_mods": "Moderator"
 }

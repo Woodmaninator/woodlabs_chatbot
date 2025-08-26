@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:woodlabs_chatbot/utils/extensions/context_extensions.dart';
 
 part 'command.g.dart';
 
@@ -13,6 +15,42 @@ enum CommandPermissionType {
   vips,
   @JsonValue("moderators")
   moderators,
+}
+
+List<String> getCommandPermissionTypeNames(BuildContext context) {
+  return CommandPermissionType.values
+      .map((type) => getCommandPermissionTypeName(context, type))
+      .toList();
+}
+
+String getCommandPermissionTypeName(
+  BuildContext context,
+  CommandPermissionType type,
+) {
+  switch (type) {
+    case CommandPermissionType.specificUsers:
+      return context.localizations.command_permission_type_specific_users;
+    case CommandPermissionType.everyone:
+      return context.localizations.command_permission_type_everyone;
+    case CommandPermissionType.subscribers:
+      return context.localizations.command_permission_type_subscribers;
+    case CommandPermissionType.vips:
+      return context.localizations.command_permission_type_vips;
+    case CommandPermissionType.moderators:
+      return context.localizations.command_permission_type_mods;
+  }
+}
+
+CommandPermissionType getCommandPermissionTypeFromName(
+  BuildContext context,
+  String name,
+) {
+  for (var type in CommandPermissionType.values) {
+    if (getCommandPermissionTypeName(context, type) == name) {
+      return type;
+    }
+  }
+  return CommandPermissionType.everyone;
 }
 
 @JsonSerializable()

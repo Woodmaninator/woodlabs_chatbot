@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:woodlabs_chatbot/components/woodlabs_button.dart';
+import 'package:woodlabs_chatbot/components/woodlabs_combobox.dart';
 import 'package:woodlabs_chatbot/components/woodlabs_slider.dart';
 import 'package:woodlabs_chatbot/components/woodlabs_text_input.dart';
 import 'package:woodlabs_chatbot/components/woodlabs_window.dart';
+import 'package:woodlabs_chatbot/model/command.dart';
 import 'package:woodlabs_chatbot/utils/extensions/context_extensions.dart';
 
 class CommandEditPage extends ConsumerStatefulWidget {
@@ -19,8 +21,10 @@ class CommandEditPage extends ConsumerStatefulWidget {
 class _CommandEditPageState extends ConsumerState<CommandEditPage> {
   final TextEditingController commandController = TextEditingController();
   final TextEditingController responseController = TextEditingController();
+  final TextEditingController specificUsersController = TextEditingController();
 
   bool isEnabled = true;
+  CommandPermissionType permissionType = CommandPermissionType.everyone;
 
   @override
   void initState() {
@@ -78,6 +82,34 @@ class _CommandEditPageState extends ConsumerState<CommandEditPage> {
               onChanged: _onSliderChanged,
               label: context.localizations.command_edit_global_cooldown,
             ),
+            const SizedBox(height: 8.0),
+            Row(
+              children: [
+                Flexible(
+                  flex: 1,
+                  child: WoodlabsComboBox(
+                    items: CommandPermissionType.values,
+                    itemLabels: getCommandPermissionTypeNames(context),
+                    selectedItem: permissionType,
+                    label: context.localizations.command_edit_permission,
+                    onChanged: _onPermissionTypeChanged,
+                  ),
+                ),
+                const SizedBox(width: 32.0),
+                Flexible(
+                  flex: 1,
+                  child: permissionType == CommandPermissionType.specificUsers
+                      ? WoodlabsTextInput(
+                          label: context
+                              .localizations
+                              .command_permission_type_specific_users,
+                          controller: specificUsersController,
+                          hintText: "Woodmaninator",
+                        )
+                      : const SizedBox.shrink(),
+                ),
+              ],
+            ),
             const SizedBox(height: 24.0),
             Divider(
               color: context.customColors.attmayGreen,
@@ -89,7 +121,7 @@ class _CommandEditPageState extends ConsumerState<CommandEditPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 WoodlabsButton(
-                  onPressed: () => _onSaveCommand(context),
+                  onPressed: () => _onSaveCommand(),
                   isDisabled: true, //TODO: UPDATE LATER
                   width: 200,
                   text: context.localizations.save,
@@ -97,7 +129,7 @@ class _CommandEditPageState extends ConsumerState<CommandEditPage> {
                 ),
                 const SizedBox(width: 32.0),
                 WoodlabsButton(
-                  onPressed: () => _onCancelCommand(context),
+                  onPressed: () => _onCancelCommand(),
                   isDisabled: false,
                   width: 200,
                   text: context.localizations.cancel,
@@ -119,9 +151,15 @@ class _CommandEditPageState extends ConsumerState<CommandEditPage> {
 
   void _onSliderChanged(double value) {}
 
-  void _onSaveCommand(BuildContext context) {}
+  void _onPermissionTypeChanged(CommandPermissionType value) {
+    setState(() {
+      permissionType = value;
+    });
+  }
 
-  void _onCancelCommand(BuildContext context) {
+  void _onSaveCommand() {}
+
+  void _onCancelCommand() {
     context.goRouter.pop();
   }
 }
