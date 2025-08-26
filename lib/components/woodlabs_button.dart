@@ -35,10 +35,10 @@ class WoodlabsButton extends StatelessWidget {
             color: isDisabled
                 ? (isPrimary
                       ? context.customColors.attmayGreenLight
-                      : context.customColors.attmayGreenLight)
+                      : context.customColors.attmayGreenComplementaryLight)
                 : (isPrimary
                       ? context.customColors.attmayGreen
-                      : context.customColors.attmayGreen),
+                      : context.customColors.attmayGreenComplementary),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

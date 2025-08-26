@@ -10,6 +10,8 @@ class CustomColors extends ThemeExtension<CustomColors> {
     required this.transparent,
     required this.attmayGreen,
     required this.attmayGreenLight,
+    required this.attmayGreenComplementary,
+    required this.attmayGreenComplementaryLight,
     required this.background,
     required this.backgroundLight,
     required this.backgroundMedium,
@@ -20,6 +22,8 @@ class CustomColors extends ThemeExtension<CustomColors> {
   final Color transparent;
   final Color attmayGreen;
   final Color attmayGreenLight;
+  final Color attmayGreenComplementary;
+  final Color attmayGreenComplementaryLight;
   final Color background;
   final Color backgroundLight;
   final Color backgroundMedium;
@@ -30,6 +34,8 @@ class CustomColors extends ThemeExtension<CustomColors> {
     transparent: Color(0x00FFFFFF),
     attmayGreen: Color(0xFF006666),
     attmayGreenLight: Color(0xFF446666),
+    attmayGreenComplementary: Color(0xFF66004B),
+    attmayGreenComplementaryLight: Color(0xFF66446B),
     background: Color(0xFF333333),
     backgroundLight: Color(0xFF6F6F6F),
     backgroundMedium: Color(0xFF4F4F4F),
@@ -45,6 +51,8 @@ class CustomColors extends ThemeExtension<CustomColors> {
     Color? transparent,
     Color? attmayGreen,
     Color? attmayGreenLight,
+    Color? attmayGreenComplementary,
+    Color? attmayGreenComplementaryLight,
     Color? background,
     Color? backgroundLight,
     Color? backgroundMedium,
@@ -55,6 +63,10 @@ class CustomColors extends ThemeExtension<CustomColors> {
       transparent: transparent ?? this.transparent,
       attmayGreen: attmayGreen ?? this.attmayGreen,
       attmayGreenLight: attmayGreenLight ?? this.attmayGreenLight,
+      attmayGreenComplementary:
+          attmayGreenComplementary ?? this.attmayGreenComplementary,
+      attmayGreenComplementaryLight:
+          attmayGreenComplementaryLight ?? this.attmayGreenComplementaryLight,
       background: background ?? this.background,
       backgroundLight: backgroundLight ?? this.backgroundLight,
       backgroundMedium: backgroundMedium ?? this.backgroundMedium,
@@ -75,6 +87,16 @@ class CustomColors extends ThemeExtension<CustomColors> {
       attmayGreenLight: Color.lerp(
         attmayGreenLight,
         other.attmayGreenLight,
+        t,
+      )!,
+      attmayGreenComplementary: Color.lerp(
+        attmayGreenComplementary,
+        other.attmayGreenComplementary,
+        t,
+      )!,
+      attmayGreenComplementaryLight: Color.lerp(
+        attmayGreenComplementaryLight,
+        other.attmayGreenComplementaryLight,
         t,
       )!,
       background: Color.lerp(background, other.background, t)!,

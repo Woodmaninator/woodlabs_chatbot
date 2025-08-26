@@ -179,6 +179,7 @@ class _CommandEditPageState extends ConsumerState<CommandEditPage> {
                 WoodlabsButton(
                   onPressed: () => _onSaveCommand(),
                   isDisabled: !isEditorValid,
+                  isPrimary: false,
                   width: 200,
                   text: context.localizations.save,
                   icon: TablerIcons.device_floppy,
@@ -279,5 +280,14 @@ class _CommandEditPageState extends ConsumerState<CommandEditPage> {
 
   void _onCancelCommand() {
     context.goRouter.pop();
+  }
+
+  @override
+  void dispose() {
+    commandController.dispose();
+    responseController.dispose();
+    specificUsersController.dispose();
+
+    super.dispose();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:woodlabs_chatbot/components/woodlabs_button.dart';
 import 'package:woodlabs_chatbot/components/woodlabs_icon_button.dart';
 import 'package:woodlabs_chatbot/components/woodlabs_text_input.dart';
 import 'package:woodlabs_chatbot/components/woodlabs_window.dart';
@@ -146,7 +147,48 @@ class _CommandsPageState extends ConsumerState<CommandsPage> {
   }
 
   void _onCommandDelete(BuildContext context, Command command) {
-    CommandService.deleteCommand(ref, command.id);
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          actionsAlignment: MainAxisAlignment.center,
+          actionsPadding: EdgeInsets.all(16.0),
+          title: Text(
+            context.localizations.command_delete_title,
+            style: context.customTextStyles.navigationBar,
+          ),
+          content: Text(
+            context.localizations.command_delete_text,
+            style: context.customTextStyles.bodyRegular,
+          ),
+          backgroundColor: context.customColors.backgroundMedium,
+          actions: [
+            WoodlabsButton(
+              icon: TablerIcons.trash,
+              text: context.localizations.delete,
+              isPrimary: false,
+              isDisabled: false,
+              width: 150,
+              onPressed: () {
+                CommandService.deleteCommand(ref, command.id);
+                Navigator.of(context).pop();
+              },
+            ),
+            WoodlabsButton(
+              icon: TablerIcons.x,
+              text: context.localizations.cancel,
+              isPrimary: true,
+              isDisabled: false,
+              width: 150,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _onCommandEdit(BuildContext context, Command command) {
