@@ -179,7 +179,7 @@ class _CommandEditPageState extends ConsumerState<CommandEditPage> {
                 WoodlabsButton(
                   onPressed: () => _onSaveCommand(),
                   isDisabled: !isEditorValid,
-                  isPrimary: false,
+                  isPrimary: true,
                   width: 200,
                   text: context.localizations.save,
                   icon: TablerIcons.device_floppy,

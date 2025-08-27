@@ -88,7 +88,7 @@ class _CommandsPageState extends ConsumerState<CommandsPage> {
               WoodlabsIconButton(
                 onPressed: () => _onAddCommand(context),
                 icon: TablerIcons.plus,
-                backgroundColor: context.customColors.backgroundMedium,
+                backgroundColor: context.customColors.attmayGreen,
               ),
             ],
           ),

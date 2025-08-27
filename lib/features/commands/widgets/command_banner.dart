@@ -63,13 +63,13 @@ class CommandBanner extends StatelessWidget {
           WoodlabsIconButton(
             onPressed: onEdit,
             icon: TablerIcons.edit,
-            backgroundColor: context.customColors.backgroundMedium,
+            backgroundColor: context.customColors.attmayGreen,
           ),
           const SizedBox(width: 8.0),
           WoodlabsIconButton(
             onPressed: onDelete,
             icon: TablerIcons.trash,
-            backgroundColor: context.customColors.backgroundMedium,
+            backgroundColor: context.customColors.attmayGreenComplementary,
           ),
           const SizedBox(width: 16.0),
         ],

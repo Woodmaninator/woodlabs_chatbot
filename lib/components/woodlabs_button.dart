@@ -7,7 +7,7 @@ class WoodlabsButton extends StatelessWidget {
   final bool isPrimary;
   final bool isDisabled;
   final double width;
-  final IconData icon;
+  final IconData? icon;
 
   const WoodlabsButton({
     super.key,
@@ -15,7 +15,7 @@ class WoodlabsButton extends StatelessWidget {
     required this.onPressed,
     required this.isDisabled,
     required this.width,
-    required this.icon,
+    this.icon,
     this.isPrimary = true,
   });
 
@@ -23,15 +23,15 @@ class WoodlabsButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(8),
       child: InkWell(
         onTap: isDisabled ? null : () => onPressed(),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(8),
         child: Container(
           width: width,
           height: 32,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(8),
             color: isDisabled
                 ? (isPrimary
                       ? context.customColors.attmayGreenLight
@@ -43,8 +43,9 @@ class WoodlabsButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, color: context.customColors.white100, size: 20),
-              const SizedBox(width: 8.0),
+              if (icon != null)
+                Icon(icon, color: context.customColors.white100, size: 20),
+              if (icon != null) const SizedBox(width: 8.0),
               Text(text, style: context.customTextStyles.bodyRegular),
             ],
           ),

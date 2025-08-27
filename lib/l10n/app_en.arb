@@ -30,11 +30,23 @@
   "command_permission_type_subscribers": "Subscribers",
   "command_permission_type_vips": "VIP",
   "command_permission_type_mods": "Moderator",
+  "command_permission_type_broadcaster": "Broadcaster",
 
   "command_trigger_type_starts_with": "Starts with",
   "command_trigger_type_word_match": "Word match",
   "command_trigger_type_contains": "Contains",
 
   "command_delete_title": "Delete Command",
-  "command_delete_text": "Are you sure you want to delete this command?"
+  "command_delete_text": "Are you sure you want to delete this command?",
+
+  "profile_channel_name": "Channel",
+  "profile_select_profile": "Select",
+  "profile_select_profile_selected": "Selected",
+
+  "profile_edit_profile_name": "Profile Name",
+  "profile_edit_channel_name": "Channel",
+  "profile_edit_icon": "Icon",
+
+  "profile_delete_title": "Delete Profile",
+  "profile_delete_text": "Are you sure you want to delete this profile? All associated commands and variables will also be deleted."
 }

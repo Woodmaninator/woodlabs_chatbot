@@ -15,6 +15,8 @@ enum CommandPermissionType {
   vips,
   @JsonValue("moderators")
   moderators,
+  @JsonValue("broadcaster")
+  broadcaster,
 }
 
 List<String> getCommandPermissionTypeNames(BuildContext context) {
@@ -38,6 +40,8 @@ String getCommandPermissionTypeName(
       return context.localizations.command_permission_type_vips;
     case CommandPermissionType.moderators:
       return context.localizations.command_permission_type_mods;
+    case CommandPermissionType.broadcaster:
+      return context.localizations.command_permission_type_broadcaster;
   }
 }
 

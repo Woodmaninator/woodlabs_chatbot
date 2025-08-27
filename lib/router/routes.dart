@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:woodlabs_chatbot/features/commands/command_edit_page.dart';
 import 'package:woodlabs_chatbot/features/commands/commands_page.dart';
 import 'package:woodlabs_chatbot/features/home/home_page.dart';
+import 'package:woodlabs_chatbot/features/profiles/profile_edit_page.dart';
+import 'package:woodlabs_chatbot/features/profiles/profiles_page.dart';
 
 part 'routes.g.dart';
 
@@ -33,7 +35,15 @@ class CustomSlideTransitionPage<T> extends CustomTransitionPage<T> {
 @TypedStatefulShellRoute<HomeShellRoute>(
   branches: [
     TypedStatefulShellBranch(
-      routes: [TypedGoRoute<ProfilesRoute>(path: '/profiles')],
+      routes: [
+        TypedGoRoute<ProfilesRoute>(
+          path: '/profiles',
+          routes: [
+            TypedGoRoute<NewProfileRoute>(path: 'new'),
+            TypedGoRoute<EditProfileRoute>(path: 'edit/:profileId'),
+          ],
+        ),
+      ],
     ),
     TypedStatefulShellBranch(
       routes: [
@@ -65,7 +75,32 @@ class HomeShellRoute extends StatefulShellRouteData {
 class ProfilesRoute extends GoRouteData with _$ProfilesRoute {
   const ProfilesRoute();
   @override
-  Widget build(context, state) => const Placeholder(color: Colors.red);
+  Widget build(context, state) => const ProfilesPage();
+}
+
+class NewProfileRoute extends GoRouteData with _$NewProfileRoute {
+  const NewProfileRoute();
+  @override
+  Widget build(context, state) => const ProfileEditPage(profileId: -1);
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomSlideTransitionPage(child: build(context, state));
+  }
+}
+
+class EditProfileRoute extends GoRouteData with _$EditProfileRoute {
+  final int profileId;
+
+  const EditProfileRoute({required this.profileId});
+
+  @override
+  Widget build(context, state) => ProfileEditPage(profileId: profileId);
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomSlideTransitionPage(child: build(context, state));
+  }
 }
 
 class CommandsRoute extends GoRouteData with _$CommandsRoute {
