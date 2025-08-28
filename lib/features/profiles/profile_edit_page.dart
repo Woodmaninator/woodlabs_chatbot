@@ -64,6 +64,8 @@ class _ProfileEditPageState extends ConsumerState<ProfileEditPage> {
       });
     });
 
+    isEditorValid = _getValidity();
+
     super.initState();
   }
 

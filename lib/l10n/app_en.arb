@@ -48,5 +48,13 @@
   "profile_edit_icon": "Icon",
 
   "profile_delete_title": "Delete Profile",
-  "profile_delete_text": "Are you sure you want to delete this profile? All associated commands and variables will also be deleted."
+  "profile_delete_text": "Are you sure you want to delete this profile? All associated commands and variables will also be deleted.",
+
+  "variables_filter": "Filter variables",
+  "variable_edit_name": "Name",
+  "variable_edit_value": "Value",
+
+  "variable_delete_title": "Delete Variable",
+  "variable_delete_text": "Are you sure you want to delete this variable?"
+
 }

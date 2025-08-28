@@ -4,10 +4,11 @@ part 'variable.g.dart';
 
 @JsonSerializable()
 class Variable {
+  int id;
   String name;
   int value;
 
-  Variable({required this.name, required this.value});
+  Variable({required this.id, required this.name, required this.value});
 
   factory Variable.fromJson(Map<String, dynamic> json) =>
       _$VariableFromJson(json);

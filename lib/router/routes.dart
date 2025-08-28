@@ -5,6 +5,8 @@ import 'package:woodlabs_chatbot/features/commands/commands_page.dart';
 import 'package:woodlabs_chatbot/features/home/home_page.dart';
 import 'package:woodlabs_chatbot/features/profiles/profile_edit_page.dart';
 import 'package:woodlabs_chatbot/features/profiles/profiles_page.dart';
+import 'package:woodlabs_chatbot/features/variables/variable_edit_page.dart';
+import 'package:woodlabs_chatbot/features/variables/variables_page.dart';
 
 part 'routes.g.dart';
 
@@ -57,7 +59,15 @@ class CustomSlideTransitionPage<T> extends CustomTransitionPage<T> {
       ],
     ),
     TypedStatefulShellBranch(
-      routes: [TypedGoRoute<VariablesRoute>(path: '/variables')],
+      routes: [
+        TypedGoRoute<VariablesRoute>(
+          path: '/variables',
+          routes: [
+            TypedGoRoute<NewVariableRoute>(path: 'new'),
+            TypedGoRoute<EditVariableRoute>(path: 'edit/:variableId'),
+          ],
+        ),
+      ],
     ),
   ],
 )
@@ -135,5 +145,28 @@ class EditCommandRoute extends GoRouteData with _$EditCommandRoute {
 class VariablesRoute extends GoRouteData with _$VariablesRoute {
   const VariablesRoute();
   @override
-  Widget build(context, state) => const Placeholder(color: Colors.green);
+  Widget build(context, state) => const VariablesPage();
+}
+
+class NewVariableRoute extends GoRouteData with _$NewVariableRoute {
+  const NewVariableRoute();
+  @override
+  Widget build(context, state) => const VariableEditPage(variableId: -1);
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomSlideTransitionPage(child: build(context, state));
+  }
+}
+
+class EditVariableRoute extends GoRouteData with _$EditVariableRoute {
+  final int variableId;
+  const EditVariableRoute({required this.variableId});
+  @override
+  Widget build(context, state) => VariableEditPage(variableId: variableId);
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomSlideTransitionPage(child: build(context, state));
+  }
 }

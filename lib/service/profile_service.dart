@@ -6,6 +6,7 @@ import 'package:woodlabs_chatbot/provider/commands_provider.dart';
 import 'package:woodlabs_chatbot/provider/hive_box_provider.dart';
 import 'package:woodlabs_chatbot/provider/profiles_provider.dart';
 import 'package:woodlabs_chatbot/provider/selected_profile_provider.dart';
+import 'package:woodlabs_chatbot/provider/variables_provider.dart';
 
 class ProfileService {
   static int getNextProfileId(List<Profile> profiles) {
@@ -50,5 +51,6 @@ class ProfileService {
   static void setSelectedProfile(WidgetRef ref, Profile profile) {
     ref.read(selectedProfileProvider.notifier).setSelectedProfile(profile);
     ref.read(commandsProvider.notifier).updateCommands(profile);
+    ref.read(variablesProvider.notifier).updateVariables(profile);
   }
 }
