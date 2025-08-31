@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:woodlabs_chatbot/features/bannedUsers/banned_users_page.dart';
 import 'package:woodlabs_chatbot/features/commands/command_edit_page.dart';
 import 'package:woodlabs_chatbot/features/commands/commands_page.dart';
 import 'package:woodlabs_chatbot/features/home/home_page.dart';
 import 'package:woodlabs_chatbot/features/profiles/profile_edit_page.dart';
 import 'package:woodlabs_chatbot/features/profiles/profiles_page.dart';
+import 'package:woodlabs_chatbot/features/textFiles/text_files_page.dart';
 import 'package:woodlabs_chatbot/features/variables/variable_edit_page.dart';
 import 'package:woodlabs_chatbot/features/variables/variables_page.dart';
 
@@ -68,6 +70,12 @@ class CustomSlideTransitionPage<T> extends CustomTransitionPage<T> {
           ],
         ),
       ],
+    ),
+    TypedStatefulShellBranch(
+      routes: [TypedGoRoute<BannedUsersRoute>(path: '/bannedUsers')],
+    ),
+    TypedStatefulShellBranch(
+      routes: [TypedGoRoute<TextFilesRoute>(path: '/textFiles')],
     ),
   ],
 )
@@ -169,4 +177,18 @@ class EditVariableRoute extends GoRouteData with _$EditVariableRoute {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return CustomSlideTransitionPage(child: build(context, state));
   }
+}
+
+class BannedUsersRoute extends GoRouteData with _$BannedUsersRoute {
+  const BannedUsersRoute();
+
+  @override
+  Widget build(context, state) => const BannedUsersPage();
+}
+
+class TextFilesRoute extends GoRouteData with _$TextFilesRoute {
+  const TextFilesRoute();
+
+  @override
+  Widget build(context, state) => const TextFilesPage();
 }

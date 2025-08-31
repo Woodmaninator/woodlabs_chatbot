@@ -11,6 +11,8 @@ class HomePageIndices {
   static const int profiles = 0;
   static const int commands = 1;
   static const int variables = 2;
+  static const int bannedUsers = 3;
+  static const int textFiles = 4;
 }
 
 /// Common class for [NavigationRail] and [NavigationBar] destinations to avoid redundancy
@@ -50,6 +52,16 @@ class HomePage extends HookConsumerWidget {
         icon: TablerIcons.math_xy,
         label: context.localizations.nav_variables,
         location: VariablesRoute().location,
+      ),
+      HomeDestination(
+        icon: TablerIcons.gavel,
+        label: context.localizations.nav_banned_users,
+        location: BannedUsersRoute().location,
+      ),
+      HomeDestination(
+        icon: TablerIcons.letter_case,
+        label: context.localizations.nav_text_files,
+        location: TextFilesRoute().location,
       ),
     ];
 

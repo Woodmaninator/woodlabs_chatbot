@@ -6,6 +6,8 @@
   "nav_profiles": "Profiles",
   "nav_commands": "Commands",
   "nav_variables": "Variables",
+  "nav_banned_users": "Banned Users",
+  "nav_text_files": "Text Files",
 
   "status_bar_connection_status": "Connection Status",
   "status_bar_connection_status_connected": "Connected",
