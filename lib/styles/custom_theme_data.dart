@@ -51,7 +51,7 @@ class CustomThemeData {
         borderRadius: BorderRadius.circular(8),
         borderSide: BorderSide(color: Colors.red),
       ),
-      contentPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 8),
+      contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
       fillColor: customColors.backgroundLight,
       filled: true,
       labelStyle: customTextStyles.input,

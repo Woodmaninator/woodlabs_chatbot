@@ -7,6 +7,7 @@ import 'package:woodlabs_chatbot/features/configuration/configuration_page.dart'
 import 'package:woodlabs_chatbot/features/home/home_page.dart';
 import 'package:woodlabs_chatbot/features/profiles/profile_edit_page.dart';
 import 'package:woodlabs_chatbot/features/profiles/profiles_page.dart';
+import 'package:woodlabs_chatbot/features/textFiles/text_file_edit_page.dart';
 import 'package:woodlabs_chatbot/features/textFiles/text_files_page.dart';
 import 'package:woodlabs_chatbot/features/variables/variable_edit_page.dart';
 import 'package:woodlabs_chatbot/features/variables/variables_page.dart';
@@ -76,7 +77,15 @@ class CustomSlideTransitionPage<T> extends CustomTransitionPage<T> {
       routes: [TypedGoRoute<BannedUsersRoute>(path: '/bannedUsers')],
     ),
     TypedStatefulShellBranch(
-      routes: [TypedGoRoute<TextFilesRoute>(path: '/textFiles')],
+      routes: [
+        TypedGoRoute<TextFilesRoute>(
+          path: '/textFiles',
+          routes: [
+            TypedGoRoute<NewTextFileRoute>(path: 'new'),
+            TypedGoRoute<EditTextFileRoute>(path: 'edit/:fileName'),
+          ],
+        ),
+      ],
     ),
     TypedStatefulShellBranch(
       routes: [TypedGoRoute<ConfigurationRoute>(path: '/configuration')],
@@ -195,6 +204,32 @@ class TextFilesRoute extends GoRouteData with _$TextFilesRoute {
 
   @override
   Widget build(context, state) => const TextFilesPage();
+}
+
+class NewTextFileRoute extends GoRouteData with _$NewTextFileRoute {
+  const NewTextFileRoute();
+
+  @override
+  Widget build(context, state) => const TextFileEditPage(textFileName: '');
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomSlideTransitionPage(child: build(context, state));
+  }
+}
+
+class EditTextFileRoute extends GoRouteData with _$EditTextFileRoute {
+  final String fileName;
+
+  const EditTextFileRoute({required this.fileName});
+
+  @override
+  Widget build(context, state) => TextFileEditPage(textFileName: fileName);
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return CustomSlideTransitionPage(child: build(context, state));
+  }
 }
 
 class ConfigurationRoute extends GoRouteData with _$ConfigurationRoute {
