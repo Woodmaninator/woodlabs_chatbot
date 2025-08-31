@@ -13,6 +13,7 @@ class HomePageIndices {
   static const int variables = 2;
   static const int bannedUsers = 3;
   static const int textFiles = 4;
+  static const int configuration = 5;
 }
 
 /// Common class for [NavigationRail] and [NavigationBar] destinations to avoid redundancy
@@ -62,6 +63,11 @@ class HomePage extends HookConsumerWidget {
         icon: TablerIcons.letter_case,
         label: context.localizations.nav_text_files,
         location: TextFilesRoute().location,
+      ),
+      HomeDestination(
+        icon: TablerIcons.password,
+        label: context.localizations.nav_configuration,
+        location: ConfigurationRoute().location,
       ),
     ];
 

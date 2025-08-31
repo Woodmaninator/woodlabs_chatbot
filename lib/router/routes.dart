@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:woodlabs_chatbot/features/bannedUsers/banned_users_page.dart';
 import 'package:woodlabs_chatbot/features/commands/command_edit_page.dart';
 import 'package:woodlabs_chatbot/features/commands/commands_page.dart';
+import 'package:woodlabs_chatbot/features/configuration/configuration_page.dart';
 import 'package:woodlabs_chatbot/features/home/home_page.dart';
 import 'package:woodlabs_chatbot/features/profiles/profile_edit_page.dart';
 import 'package:woodlabs_chatbot/features/profiles/profiles_page.dart';
@@ -76,6 +77,9 @@ class CustomSlideTransitionPage<T> extends CustomTransitionPage<T> {
     ),
     TypedStatefulShellBranch(
       routes: [TypedGoRoute<TextFilesRoute>(path: '/textFiles')],
+    ),
+    TypedStatefulShellBranch(
+      routes: [TypedGoRoute<ConfigurationRoute>(path: '/configuration')],
     ),
   ],
 )
@@ -191,4 +195,11 @@ class TextFilesRoute extends GoRouteData with _$TextFilesRoute {
 
   @override
   Widget build(context, state) => const TextFilesPage();
+}
+
+class ConfigurationRoute extends GoRouteData with _$ConfigurationRoute {
+  const ConfigurationRoute();
+
+  @override
+  Widget build(context, state) => const ConfigurationPage();
 }
