@@ -120,6 +120,7 @@ class Profile {
 
   List<Command> commands;
   List<Variable> variables;
+  List<String> bannedUsers;
 
   Profile({
     this.id = 0,
@@ -128,8 +129,10 @@ class Profile {
     this.icon = ProfileIcon.user,
     List<Command>? commands,
     List<Variable>? variables,
+    List<String>? bannedUsers,
   }) : commands = commands ?? [],
-       variables = variables ?? [];
+       variables = variables ?? [],
+       bannedUsers = bannedUsers ?? [];
 
   factory Profile.fromJson(Map<String, dynamic> json) =>
       _$ProfileFromJson(json);

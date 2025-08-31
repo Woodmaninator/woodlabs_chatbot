@@ -57,6 +57,10 @@
   "variable_edit_value": "Value",
 
   "variable_delete_title": "Delete Variable",
-  "variable_delete_text": "Are you sure you want to delete this variable?"
+  "variable_delete_text": "Are you sure you want to delete this variable?",
 
+  "banned_user_add_user": "Add a new banned user",
+  "banned_user_delete_title": "Delete Banned User",
+  "banned_user_delete_text": "Are you sure you want to unban this banned user?",
+  "banned_user_unban": "Forgive"
 }
