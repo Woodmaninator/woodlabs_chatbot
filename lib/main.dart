@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:twitch_chat/twitch_chat.dart';
 import 'package:window_size/window_size.dart';
 import 'package:woodlabs_chatbot/app.dart';
+import 'package:woodlabs_chatbot/chat/chat_bot.dart';
 import 'package:woodlabs_chatbot/provider/profiles_provider.dart';
 import 'package:woodlabs_chatbot/provider/selected_profile_provider.dart';
 
@@ -22,35 +22,6 @@ Future<void> main() async {
     setWindowMaxSize(const Size(1000, 600));
     setWindowMinSize(const Size(1000, 600));
   }
-
-  //TODO: REMOVE THIS
-  TwitchChat twitchChat = TwitchChat(
-    'Woodmaninator',
-    'WoodlabsChatbot',
-    Platform.environment['WOODLABS_CHATBOT_ACCESS_TOKEN'] ?? '',
-    clientId: Platform.environment['WOODLABS_CHATBOT_CLIENT_ID'],
-    onConnected: () {
-      print('Connected to Twitch Chat');
-    },
-    onError: () {
-      print('Disconnected from Twitch Chat');
-    },
-    onDone: () {
-      print('Twitch Chat connection done');
-    },
-  );
-
-  twitchChat.connect();
-
-  twitchChat.chatStream.listen((message) {
-    print('${message.displayName}: ${message.message}');
-    if (message.isSubscriber) {
-      print('${message.displayName} is a subscriber!');
-    }
-    if (message.message == "!ping") {
-      twitchChat.sendMessage('/me @${message.displayName} Pong!');
-    }
-  });
 
   var documentsPath = (await getApplicationDocumentsDirectory()).path;
 
@@ -113,6 +84,9 @@ Future<void> main() async {
         .read(selectedProfileProvider.notifier)
         .setSelectedProfile(defaultProfile);
   }
+
+  // initialize the actual chat bot logic
+  ChatBot.initialize(container);
 
   runApp(UncontrolledProviderScope(container: container, child: const App()));
 }

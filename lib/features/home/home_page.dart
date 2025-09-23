@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:woodlabs_chatbot/components/woodlabs_navigation_bar.dart';
-import 'package:woodlabs_chatbot/features/home/status_bar.dart';
+import 'package:woodlabs_chatbot/features/home/widgets/status_bar.dart';
 
 import '../../router/routes.dart';
 import '../../utils/extensions/context_extensions.dart';

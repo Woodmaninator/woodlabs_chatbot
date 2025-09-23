@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:woodlabs_chatbot/chat/chat_bot.dart';
 import 'package:woodlabs_chatbot/model/profile.dart';
 import 'package:woodlabs_chatbot/provider/commands_provider.dart';
 import 'package:woodlabs_chatbot/provider/hive_box_provider.dart';
@@ -49,8 +50,12 @@ class ProfileService {
   }
 
   static void setSelectedProfile(WidgetRef ref, Profile profile) {
+    ChatBot.disconnect();
+
     ref.read(selectedProfileProvider.notifier).setSelectedProfile(profile);
     ref.read(commandsProvider.notifier).updateCommands(profile);
     ref.read(variablesProvider.notifier).updateVariables(profile);
+
+    ChatBot.connect();
   }
 }

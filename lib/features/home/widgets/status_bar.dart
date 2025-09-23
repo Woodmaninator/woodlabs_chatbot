@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:woodlabs_chatbot/model/profile.dart';
+import 'package:woodlabs_chatbot/provider/current_connection_status_provider.dart';
 import 'package:woodlabs_chatbot/provider/selected_profile_provider.dart';
 import 'package:woodlabs_chatbot/utils/extensions/context_extensions.dart';
 
@@ -16,6 +17,31 @@ class StatusBar extends ConsumerWidget {
     String selectedProfileText = selectedProfile == null
         ? context.localizations.status_bar_active_profile_no_profile
         : "${context.localizations.status_bar_active_profile}: ${selectedProfile.name}";
+
+    var connectionStatusString = switch (ref.watch(
+      currentConnectionStatusProvider,
+    )) {
+      ConnectionStatus.connected =>
+        "${context.localizations.status_bar_connection_status_connected}: ${selectedProfile?.channel ?? ""}",
+      ConnectionStatus.connecting =>
+        context.localizations.status_bar_connection_status_connecting,
+      ConnectionStatus.disconnected =>
+        context.localizations.status_bar_connection_status_disconnected,
+      ConnectionStatus.configuration_missing =>
+        context.localizations.status_bar_missing_configuration,
+      ConnectionStatus.invalid_channel_name =>
+        "${context.localizations.status_bar_invalid_channel}: ${selectedProfile?.channel ?? ""}",
+    };
+
+    var connectionStatusIcon = switch (ref.watch(
+      currentConnectionStatusProvider,
+    )) {
+      ConnectionStatus.connected => TablerIcons.world,
+      ConnectionStatus.connecting => TablerIcons.refresh,
+      ConnectionStatus.disconnected => TablerIcons.world_off,
+      ConnectionStatus.configuration_missing => TablerIcons.alert_circle,
+      ConnectionStatus.invalid_channel_name => TablerIcons.alert_circle,
+    };
 
     return Container(
       height: 24.0,
@@ -48,12 +74,12 @@ class StatusBar extends ConsumerWidget {
             ),
           ),
           Text(
-            "${context.localizations.status_bar_connection_status}: ${context.localizations.status_bar_connection_status_connected}",
+            "${context.localizations.status_bar_connection_status} - $connectionStatusString",
             style: context.customTextStyles.statusBar,
           ),
           const SizedBox(width: _spacing),
           Icon(
-            TablerIcons.world_off,
+            connectionStatusIcon,
             size: 16.0,
             color: context.customColors.white100,
           ),

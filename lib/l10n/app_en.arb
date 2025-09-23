@@ -16,6 +16,8 @@
   "status_bar_connection_status_connecting": "Connecting",
   "status_bar_active_profile": "Active Profile",
   "status_bar_active_profile_no_profile": "No profile selected",
+  "status_bar_missing_configuration": "Configuration missing",
+  "status_bar_invalid_channel": "Invalid channel",
 
   "commands_filter": "Filter commands",
   "command_edit_command": "Command",
