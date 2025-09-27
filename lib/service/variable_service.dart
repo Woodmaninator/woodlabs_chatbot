@@ -35,8 +35,12 @@ class VariableService {
   }
 
   static void updateVariable(WidgetRef ref, Variable variable) {
-    var box = ref.read(hiveBoxProvider);
-    var currentProfile = ref.read(selectedProfileProvider);
+    updateVariableC(ref.container, variable);
+  }
+
+  static void updateVariableC(ProviderContainer container, Variable variable) {
+    var box = container.read(hiveBoxProvider);
+    var currentProfile = container.read(selectedProfileProvider);
     if (currentProfile == null) return;
 
     var index = currentProfile.variables.indexWhere((v) => v.id == variable.id);
@@ -47,11 +51,13 @@ class VariableService {
         jsonEncode(currentProfile.toJson()),
       );
 
-      ref
+      container
           .read(selectedProfileProvider.notifier)
           .setSelectedProfile(currentProfile);
 
-      ref.read(variablesProvider.notifier).updateVariables(currentProfile);
+      container
+          .read(variablesProvider.notifier)
+          .updateVariables(currentProfile);
     }
   }
 

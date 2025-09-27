@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:woodlabs_chatbot/chat/chat_bot.dart';
 import 'package:woodlabs_chatbot/model/profile.dart';
+import 'package:woodlabs_chatbot/provider/banned_users_provider.dart';
 import 'package:woodlabs_chatbot/provider/commands_provider.dart';
 import 'package:woodlabs_chatbot/provider/hive_box_provider.dart';
 import 'package:woodlabs_chatbot/provider/profiles_provider.dart';
@@ -55,6 +56,7 @@ class ProfileService {
     ref.read(selectedProfileProvider.notifier).setSelectedProfile(profile);
     ref.read(commandsProvider.notifier).updateCommands(profile);
     ref.read(variablesProvider.notifier).updateVariables(profile);
+    ref.read(bannedUsersProvider.notifier).updateBannedUsers(profile);
 
     ChatBot.connect();
   }
