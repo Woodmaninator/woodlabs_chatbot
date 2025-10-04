@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:woodlabs_chatbot/chat/chat_bot.dart';
 import 'package:woodlabs_chatbot/model/text_file.dart';
 
 part 'text_files_provider.g.dart';
@@ -24,7 +25,7 @@ class TextFiles extends _$TextFiles {
       textFilesDir,
     ).listSync().whereType<File>().where((file) => file.path.endsWith('.txt'));
 
-    return files.map((file) {
+    var textFiles = files.map((file) {
       final fileName = file.path
           .split(Platform.pathSeparator)
           .last
@@ -39,6 +40,10 @@ class TextFiles extends _$TextFiles {
           .toList();
       return TextFile(name: fileName, lines: lines);
     }).toList();
+
+    _updateChatBotTextFiles(textFiles);
+
+    return textFiles;
   }
 
   Future<void> reload() async {
@@ -61,6 +66,8 @@ class TextFiles extends _$TextFiles {
         textFile.lines.where((line) => line.isNotEmpty).join('\n'),
       );
     }
+
+    _updateChatBotTextFiles(textFiles);
   }
 
   Future<void> addTextFile(TextFile textFile) async {
@@ -111,5 +118,9 @@ class TextFiles extends _$TextFiles {
     await newFileObj.writeAsString(
       newFile.lines.where((line) => line.isNotEmpty).join('\n'),
     );
+  }
+
+  void _updateChatBotTextFiles(List<TextFile> textFiles) {
+    ChatBot.updateTextFiles(textFiles);
   }
 }

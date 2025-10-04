@@ -24,6 +24,8 @@ class ChatBot {
 
   static bool _connected = false;
 
+  static List<TextFile> _textFiles = [];
+
   static Map<(int, String), DateTime> userCommandTimestamps =
       {}; // map from command id and username to last used timestamp
   static Map<int, DateTime> globalCommandTimestamps =
@@ -34,6 +36,10 @@ class ChatBot {
 
     var configuration = container.read(currentConfigurationProvider);
     var profile = container.read(selectedProfileProvider);
+
+    container.read(textFilesProvider.future).then((value) {
+      _textFiles = value;
+    });
 
     _resetCooldowns();
 
@@ -54,6 +60,10 @@ class ChatBot {
 
       _resetCooldowns();
     }
+  }
+
+  static void updateTextFiles(List<TextFile> textFiles) {
+    _textFiles = textFiles;
   }
 
   static void _resetCooldowns() {
@@ -354,11 +364,10 @@ class ChatBot {
       globalCommandTimestamps[commandId] = now;
 
       var variables = container.read(variablesProvider);
-      var textFiles = container.read(textFilesProvider).value ?? [];
 
       var response = _interpretCommand(
         profile,
-        textFiles,
+        _textFiles,
         variables,
         commandToExecute,
         message,
@@ -407,7 +416,7 @@ class ChatBot {
         break;
       }
 
-      if (nextFunctionStart > currentIndex) {
+      if (nextFunctionStart >= currentIndex) {
         builtResponse += responseTemplate.substring(
           currentIndex,
           nextFunctionStart,
