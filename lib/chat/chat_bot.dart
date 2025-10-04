@@ -7,6 +7,7 @@ import 'package:woodlabs_chatbot/model/profile.dart';
 import 'package:woodlabs_chatbot/model/text_file.dart';
 import 'package:woodlabs_chatbot/model/variable.dart';
 import 'package:woodlabs_chatbot/provider/banned_users_provider.dart';
+import 'package:woodlabs_chatbot/provider/command_received_provider.dart';
 import 'package:woodlabs_chatbot/provider/commands_provider.dart';
 import 'package:woodlabs_chatbot/provider/current_configuration_provider.dart';
 import 'package:woodlabs_chatbot/provider/current_connection_status_provider.dart';
@@ -366,6 +367,14 @@ class ChatBot {
       if (response.isNotEmpty) {
         twitchChat.sendMessage(response);
       }
+
+      container.read(commandReceivedProvider.notifier).setCommandReceived(true);
+
+      Future.delayed(Duration(seconds: 2), () {
+        container
+            .read(commandReceivedProvider.notifier)
+            .setCommandReceived(false);
+      });
     } catch (e) {
       // Handle any errors that occur during message processing
       print('Error processing message: $e');

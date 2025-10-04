@@ -3,6 +3,7 @@ import 'package:flutter_tabler_icons/flutter_tabler_icons.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:woodlabs_chatbot/components/woodlabs_navigation_bar.dart';
 import 'package:woodlabs_chatbot/features/home/widgets/status_bar.dart';
+import 'package:woodlabs_chatbot/provider/command_received_provider.dart';
 
 import '../../router/routes.dart';
 import '../../utils/extensions/context_extensions.dart';
@@ -31,13 +32,15 @@ class HomeDestination {
 
 /// Home page handles navigation and scroll-to-top for its nested [StatefulShellBranch] routes.
 class HomePage extends HookConsumerWidget {
-  const HomePage({super.key, required this.child, required this.index});
+  const HomePage({super.key, required this.index, required this.child});
 
   final int index;
   final Widget child;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var talkingProviderState = ref.watch(commandReceivedProvider);
+
     final destinations = [
       HomeDestination(
         icon: TablerIcons.user,
@@ -123,10 +126,12 @@ class HomePage extends HookConsumerWidget {
                           const SizedBox(height: 16.0),
                           Center(
                             child: Image.asset(
-                              "assets/img/woodlabs_800.png",
+                              talkingProviderState
+                                  ? "assets/img/attmay_animated.gif"
+                                  : "assets/img/attmay_static.png",
                               fit: BoxFit.contain,
-                              height: 64,
-                              width: 64,
+                              height: 128,
+                              width: 128,
                             ),
                           ),
                           const SizedBox(height: 16.0),
