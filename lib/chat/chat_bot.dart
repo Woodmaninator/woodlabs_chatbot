@@ -23,11 +23,18 @@ class ChatBot {
 
   static bool _connected = false;
 
+  static Map<(int, String), DateTime> userCommandTimestamps =
+      {}; // map from command id and username to last used timestamp
+  static Map<int, DateTime> globalCommandTimestamps =
+      {}; // map from command id to last used timestamp
+
   static void initialize(ProviderContainer provContainer) {
     container = provContainer;
 
     var configuration = container.read(currentConfigurationProvider);
     var profile = container.read(selectedProfileProvider);
+
+    _resetCooldowns();
 
     if (configuration == null || profile == null) {
       return;
@@ -43,7 +50,14 @@ class ChatBot {
       container
           .read(currentConnectionStatusProvider.notifier)
           .setStatus(ConnectionStatus.disconnected);
+
+      _resetCooldowns();
     }
+  }
+
+  static void _resetCooldowns() {
+    userCommandTimestamps = {};
+    globalCommandTimestamps = {};
   }
 
   static void connect() {
@@ -311,6 +325,32 @@ class ChatBot {
       if (commandToExecute == null) {
         return;
       }
+
+      var username = message.username.toLowerCase();
+      var commandId = commandToExecute.id;
+      var now = DateTime.now();
+
+      // Check user cooldown
+      var userLastUsed =
+          userCommandTimestamps[(commandId, username)] ??
+          DateTime.fromMillisecondsSinceEpoch(0);
+      if (now.difference(userLastUsed).inSeconds <
+          commandToExecute.userCooldown) {
+        return; // User is still on cooldown for this command
+      }
+
+      // Check global cooldown
+      var globalLastUsed =
+          globalCommandTimestamps[commandId] ??
+          DateTime.fromMillisecondsSinceEpoch(0);
+      if (now.difference(globalLastUsed).inSeconds <
+          commandToExecute.globalCooldown) {
+        return; // Command is still on global cooldown
+      }
+
+      // Update timestamps
+      userCommandTimestamps[(commandId, username)] = now;
+      globalCommandTimestamps[commandId] = now;
 
       var variables = container.read(variablesProvider);
       var textFiles = container.read(textFilesProvider).value ?? [];
