@@ -33,6 +33,13 @@ class ProfileService {
     var profiles = ref.read(profilesProvider);
     var index = profiles.indexWhere((p) => p.id == profile.id);
     if (index != -1) {
+      if (ref.watch(selectedProfileProvider)?.id == profile.id) {
+        if (ref.read(selectedProfileProvider)?.channel != profile.channel) {
+          ChatBot.disconnect();
+          ChatBot.connect();
+        }
+      }
+
       profiles[index] = profile;
       box.put('profile_${profile.id}', jsonEncode(profile.toJson()));
       ref.read(profilesProvider.notifier).updateProfiles(profiles);
