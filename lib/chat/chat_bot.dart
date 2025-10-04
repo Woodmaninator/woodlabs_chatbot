@@ -427,7 +427,7 @@ class ChatBot {
       case "getrandline":
         return _interpretGetRandLineFunction(textFiles, params);
       case "randnum":
-        return _interpretGetRandLineFunction(textFiles, params);
+        return _interpretRandNumFunction(params);
       case "username":
         return _interpretUsernameFunction(message);
       case "mychannel":
