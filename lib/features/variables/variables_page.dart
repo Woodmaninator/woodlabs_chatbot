@@ -47,6 +47,8 @@ class _VariablesPageState extends ConsumerState<VariablesPage> {
       );
     }).toList();
 
+    filteredVariables.sort((a, b) => a.name.compareTo(b.name));
+
     var variableBanners = <Widget>[];
     for (int i = 0; i < filteredVariables.length; i++) {
       var variable = filteredVariables.elementAt(i);
