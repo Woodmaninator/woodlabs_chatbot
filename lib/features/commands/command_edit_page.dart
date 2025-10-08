@@ -228,14 +228,14 @@ class _CommandEditPageState extends ConsumerState<CommandEditPage> {
 
   void _onUserCooldownChanged(double value) {
     setState(() {
-      userCooldown = value.toInt();
+      userCooldown = value.round();
       isEditorValid = _getValidity();
     });
   }
 
   void _onGlobalCooldownChanged(double value) {
     setState(() {
-      globalCooldown = value.toInt();
+      globalCooldown = value.round();
       isEditorValid = _getValidity();
     });
   }
