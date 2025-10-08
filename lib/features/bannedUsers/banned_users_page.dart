@@ -34,6 +34,8 @@ class _BannedUsersPageState extends ConsumerState<BannedUsersPage> {
   Widget build(BuildContext context) {
     var bannedUsers = ref.watch(bannedUsersProvider);
 
+    bannedUsers.sort((a, b) => a.compareTo(b));
+
     var bannedUserBanners = <Widget>[];
     for (int i = 0; i < bannedUsers.length; i++) {
       var bannedUser = bannedUsers.elementAt(i);
