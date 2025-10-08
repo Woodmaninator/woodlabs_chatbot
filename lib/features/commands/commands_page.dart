@@ -47,6 +47,8 @@ class _CommandsPageState extends ConsumerState<CommandsPage> {
       );
     }).toList();
 
+    filteredCommands.sort((a, b) => a.command.compareTo(b.command));
+
     var commandBanners = <Widget>[];
     for (int i = 0; i < filteredCommands.length; i++) {
       var command = filteredCommands.elementAt(i);
