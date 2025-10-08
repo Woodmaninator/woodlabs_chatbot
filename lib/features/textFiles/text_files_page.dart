@@ -53,6 +53,8 @@ class _TextFilesPageState extends ConsumerState<TextFilesPage> {
       return textFile.name.toLowerCase().contains(filter);
     }).toList();
 
+    filteredTextFiles.sort((a, b) => a.name.compareTo(b.name));
+
     var textFileBanners = <Widget>[];
     for (int i = 0; i < filteredTextFiles.length; i++) {
       var textFile = filteredTextFiles.elementAt(i);
