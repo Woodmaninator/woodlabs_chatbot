@@ -305,8 +305,9 @@ class ChatBot {
 
       for (var cmd in startsWithCommands) {
         if (message.message.toLowerCase().startsWith(
-          cmd.command.toLowerCase(),
-        )) {
+              '${cmd.command.toLowerCase()} ',
+            ) ||
+            message.message.toLowerCase() == cmd.command.toLowerCase()) {
           commandToExecute = cmd;
           break;
         }
