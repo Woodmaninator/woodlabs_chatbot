@@ -56,8 +56,8 @@ class _CommandEditPageState extends ConsumerState<CommandEditPage> {
       isEnabled = true;
       permissionType = CommandPermissionType.everyone;
       triggerType = CommandTriggerType.startsWith;
-      userCooldown = 30;
-      globalCooldown = 10;
+      userCooldown = 0;
+      globalCooldown = 30;
     }
 
     commandController.addListener(() {
